@@ -1,8 +1,7 @@
-package com.eaglesakura.sloth.plugin
+package com.eaglesakura.sloth.prop
 
-import com.eaglesakura.android.property.model.PropertySource
 import com.eaglesakura.json.JSON
-import com.eaglesakura.sloth.plugin.prop.PropClassGenerator2
+import com.eaglesakura.sloth.database.property.model.PropertySource
 import org.gradle.api.DefaultTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -11,16 +10,16 @@ import org.gradle.api.tasks.TaskAction
 /**
  * Androidのプロパティリストを出力するPlugin
  */
-public class AndroidPropertiesPlugin implements Plugin<Project> {
+class AndroidPropertiesPlugin implements Plugin<Project> {
     @Override
-    public void apply(Project project) {
+    void apply(Project project) {
         project.extensions.create("props", AndroidPropertiesPlugin.DSL);
 
         // 規定のタスクを追加
         project.task('androidGenerateProperties', type: PropClassGeneratorImpl)
     }
 
-    public static class PropClassGeneratorImpl extends DefaultTask {
+    static class PropClassGeneratorImpl extends DefaultTask {
 
         /**
          * 全てのgeneratorを実行する
@@ -38,7 +37,7 @@ public class AndroidPropertiesPlugin implements Plugin<Project> {
         return JSON.decode(file.text, PropertySource.class);
     }
 
-    public static class DSL {
+    static class DSL {
         List<PropClassGenerator2> generators = [];
         File output = new File("src/main/gen/props");
 

@@ -1,12 +1,13 @@
-package com.eaglesakura.sloth.plugin.prop
+package com.eaglesakura.sloth.prop
 
+import com.eaglesakura.sloth.database.property.model.PropertySource
 import com.eaglesakura.tool.generator.CodeWriter
 
 /**
  * JSONのプロパティシートベースで書き出しを行う
  */
 class PropClassGenerator2 {
-    def classPackageName = "com.example";
+    def classPackageName = "com.example"
     def className = "SampleSettingClass";
     def superClass = "com.eaglesakura.android.property.internal.GeneratedProperties"
     File outDirectory = null;
@@ -54,9 +55,9 @@ class PropClassGenerator2 {
      * プロパティシートをJSONモデルから組み立てる
      * @param group
      */
-    public void addProperties(PropertySource.Group group) {
+    void addProperties(PropertySource.Group group) {
         className = group.name;
-        for (def prop : group.getProperties()) {
+        for (def prop : group._properties) {
             switch (prop.type) {
                 case "String":
                     stringProperty(prop.name, prop.value);
@@ -89,114 +90,114 @@ class PropClassGenerator2 {
         }
     }
 
-    public void byteArrayProperty(String propName) {
+    void byteArrayProperty(String propName) {
         properties.add(new Property("${className}.${propName}", propName, "") {
             @Override
             String generateSetter() {
-                return "public void set${toCamelCase(name)}(byte[] set){ setProperty(\"${key}\", set); }";
+                return "void set${toCamelCase(name)}(byte[] set){ setProperty(\"${key}\", set); }";
             }
 
             @Override
             String generateGetter() {
-                return "public byte[] get${toCamelCase(name)}(){ return getByteArrayProperty(\"${key}\"); }";
+                return "byte[] get${toCamelCase(name)}(){ return getByteArrayProperty(\"${key}\"); }";
             }
         })
     }
 
-    public void floatProperty(String propName, float propDefaultValue) {
+    void floatProperty(String propName, float propDefaultValue) {
         properties.add(new Property("${className}.${propName}", propName, "" + propDefaultValue) {
             @Override
             String generateSetter() {
-                return "public void set${toCamelCase(name)}(float set){ setProperty(\"${key}\", set); }";
+                return "void set${toCamelCase(name)}(float set){ setProperty(\"${key}\", set); }";
             }
 
             @Override
             String generateGetter() {
-                return "public float get${toCamelCase(name)}(){ return getFloatProperty(\"${key}\"); }";
+                return "float get${toCamelCase(name)}(){ return getFloatProperty(\"${key}\"); }";
             }
         })
     }
 
-    public void doubleProperty(String propName, double propDefaultValue) {
+    void doubleProperty(String propName, double propDefaultValue) {
         properties.add(new Property("${className}.${propName}", propName, "" + propDefaultValue) {
             @Override
             String generateSetter() {
-                return "public void set${toCamelCase(name)}(double set){ setProperty(\"${key}\", set); }";
+                return "void set${toCamelCase(name)}(double set){ setProperty(\"${key}\", set); }";
             }
 
             @Override
             String generateGetter() {
-                return "public double get${toCamelCase(name)}(){ return getDoubleProperty(\"${key}\"); }";
+                return "double get${toCamelCase(name)}(){ return getDoubleProperty(\"${key}\"); }";
             }
         })
     }
 
-    public void booleanProperty(String propName, boolean propDefaultValue) {
+    void booleanProperty(String propName, boolean propDefaultValue) {
         properties.add(new Property("${className}.${propName}", propName, propDefaultValue ? "1" : "0") {
             @Override
             String generateSetter() {
-                return "public void set${toCamelCase(name)}(boolean set){ setProperty(\"${key}\", set); }";
+                return "void set${toCamelCase(name)}(boolean set){ setProperty(\"${key}\", set); }";
             }
 
             @Override
             String generateGetter() {
-                return "public boolean is${toCamelCase(name)}(){ return getBooleanProperty(\"${key}\"); }";
+                return "boolean is${toCamelCase(name)}(){ return getBooleanProperty(\"${key}\"); }";
             }
         })
     }
 
-    public void intProperty(String propName, int propDefaultValue) {
+    void intProperty(String propName, int propDefaultValue) {
         properties.add(new Property("${className}.${propName}", propName, "" + propDefaultValue) {
             @Override
             String generateSetter() {
-                return "public void set${toCamelCase(name)}(int set){ setProperty(\"${key}\", set); }";
+                return "void set${toCamelCase(name)}(int set){ setProperty(\"${key}\", set); }";
             }
 
             @Override
             String generateGetter() {
-                return "public int get${toCamelCase(name)}(){ return getIntProperty(\"${key}\"); }";
+                return "int get${toCamelCase(name)}(){ return getIntProperty(\"${key}\"); }";
             }
         })
     }
 
-    public void longProperty(String propName, long propDefaultValue) {
+    void longProperty(String propName, long propDefaultValue) {
         properties.add(new Property("${className}.${propName}", propName, "" + propDefaultValue) {
             @Override
             String generateSetter() {
-                return "public void set${toCamelCase(name)}(long set){ setProperty(\"${key}\", set); }";
+                return "void set${toCamelCase(name)}(long set){ setProperty(\"${key}\", set); }";
             }
 
             @Override
             String generateGetter() {
-                return "public long get${toCamelCase(name)}(){ return getLongProperty(\"${key}\"); }";
+                return "long get${toCamelCase(name)}(){ return getLongProperty(\"${key}\"); }";
             }
         })
     }
 
-    public void dateProperty(String propName) {
+    void dateProperty(String propName) {
         properties.add(new Property("${className}.${propName}", propName, "0") {
             @Override
             String generateSetter() {
-                return "public void set${toCamelCase(name)}(java.util.Date set){ setProperty(\"${key}\", set != null ? set.getTime() : 0); }";
+                return "void set${toCamelCase(name)}(java.util.Date set){ setProperty(\"${key}\", set != null ? set.getTime() : 0); }";
             }
 
             @Override
             String generateGetter() {
-                return "public java.util.Date get${toCamelCase(name)}(){ return getDateProperty(\"${key}\"); }";
+                return "java.util.Date get${toCamelCase(name)}(){ return getDateProperty(\"${key}\"); }";
             }
         })
     }
 
-    public void stringProperty(String propName, String propDefaultValue) {
+    void stringProperty(String propName, String propDefaultValue) {
         properties.add(new Property("${className}.${propName}", propName, propDefaultValue) {
             @Override
             String generateSetter() {
-                return "public void set${toCamelCase(name)}(String set){ setProperty(\"${key}\", set); }";
+                return "void set${toCamelCase(name)}(String set){ setProperty(\"${key}\", set); }";
             }
 
             @Override
             String generateGetter() {
-                return "public String get${toCamelCase(name)}(){ return getStringProperty(\"${key}\"); }";
+                return "String get${toCamelCase(name)}(){ return getStringProperty(\"${key}\"); }";
             }
         })
     }
@@ -207,16 +208,16 @@ class PropClassGenerator2 {
      * @param enumFullName
      * @param propDefaultValue
      */
-    public void enumProperty(String propName, final String enumFullName, String propDefaultValue) {
+    void enumProperty(String propName, final String enumFullName, String propDefaultValue) {
         properties.add(new Property("${className}.${propName}", propName, propDefaultValue) {
             @Override
             String generateSetter() {
-                return "public void set${toCamelCase(name)}(${enumFullName} set){ setProperty(\"${key}\", set != null ? set.name() : \"\"); }";
+                return "void set${toCamelCase(name)}(${enumFullName} set){ setProperty(\"${key}\", set != null ? set.name() : \"\"); }";
             }
 
             @Override
             String generateGetter() {
-                return "public ${enumFullName} get${toCamelCase(name)}(){ try{ return ${enumFullName}.valueOf(getStringProperty(\"${key}\")); }catch(Exception e){ return null; } }";
+                return "${enumFullName} get${toCamelCase(name)}(){ try{ return ${enumFullName}.valueOf(getStringProperty(\"${key}\")); }catch(Exception e){ return null; } }";
             }
         })
     }
@@ -226,16 +227,16 @@ class PropClassGenerator2 {
      * @param name プロパティ名
      * @param pojoFullName JSONの
      */
-    public void jsonProperty(String propName, final String pojoFullName) {
+    void jsonProperty(String propName, final String pojoFullName) {
         properties.add(new Property("${className}.${propName}", propName, "{}") {
             @Override
             String generateSetter() {
-                return "public void set${toCamelCase(name)}(${pojoFullName} set){ setProperty(\"${key}\", com.eaglesakura.json.JSON.encodeOrNull(set)); }";
+                return "void set${toCamelCase(name)}(${pojoFullName} set){ setProperty(\"${key}\", com.eaglesakura.json.JSON.encodeOrNull(set)); }";
             }
 
             @Override
             String generateGetter() {
-                return "public ${pojoFullName} get${toCamelCase(name)}(){ return getJsonProperty(\"${key}\", ${pojoFullName}.class); }";
+                return "${pojoFullName} get${toCamelCase(name)}(){ return getJsonProperty(\"${key}\", ${pojoFullName}.class); }";
             }
         })
     }
@@ -244,21 +245,21 @@ class PropClassGenerator2 {
      * Bitmap用Propertyを追加する
      * @param propName
      */
-    public void bitmapProperty(String propName) {
+    void bitmapProperty(String propName) {
         properties.add(new Property("${className}.${propName}", propName, "") {
             @Override
             String generateSetter() {
-                return "public void set${toCamelCase(name)}(android.graphics.Bitmap set){ setProperty(\"${key}\", set); }";
+                return "void set${toCamelCase(name)}(android.graphics.Bitmap set){ setProperty(\"${key}\", set); }";
             }
 
             @Override
             String generateGetter() {
-                return "public android.graphics.Bitmap get${toCamelCase(name)}(){ return getBitmapProperty(\"${key}\"); }";
+                return "android.graphics.Bitmap get${toCamelCase(name)}(){ return getBitmapProperty(\"${key}\"); }";
             }
         })
     }
 
-    public void build() {
+    void build() {
 
         File srcRootDirectory = outDirectory;
 
@@ -286,14 +287,14 @@ class PropClassGenerator2 {
         writer.newLine();
 
         // class name
-        writer.writeLine("public class ${className} extends ${superClass} {").pushIndent(true);
+        writer.writeLine("class ${className} extends ${superClass} {").pushIndent(true);
 
         // プロパティIDを出力
         PROP_ID:
         {
             writer.newLine();
             for (def prop : properties) {
-                writer.writeLine("public static final String ID_${prop.name.toUpperCase()} = \"${prop.key}\";");
+                writer.writeLine("static final String ID_${prop.name.toUpperCase()} = \"${prop.key}\";");
             }
             writer.newLine();
         }
@@ -301,7 +302,7 @@ class PropClassGenerator2 {
         // コンストラクタと初期化
         INIT:
         {
-            writer.writeLine("public ${className}(){ }");
+            writer.writeLine("${className}(){ }");
         }
 
         // アクセサメソッドを生成する

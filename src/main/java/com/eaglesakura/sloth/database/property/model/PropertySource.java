@@ -1,6 +1,6 @@
 package com.eaglesakura.sloth.database.property.model;
 
-import android.support.annotation.Keep;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
@@ -31,7 +31,6 @@ public class PropertySource {
         /**
          * 型名, String, int, long等
          */
-        @Keep
         public String type;
     }
 
@@ -42,13 +41,12 @@ public class PropertySource {
         /**
          * プロパティ一覧
          */
-        @Keep
-        public List<Property> properties;
+        @SerializedName("properties")
+        public List<Property> _properties;
 
         /**
          * グループ名
          */
-        @Keep
         public String name;
     }
 }
