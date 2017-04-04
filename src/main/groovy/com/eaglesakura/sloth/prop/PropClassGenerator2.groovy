@@ -303,6 +303,7 @@ public class PropClassGenerator2 {
         INIT:
         {
             writer.writeLine("public ${className}(){ }");
+            writer.writeLine("public ${className}(com.eaglesakura.sloth.db.property.PropertyStore store){ setPropertyStore(store); }");
         }
 
         // アクセサメソッドを生成する
