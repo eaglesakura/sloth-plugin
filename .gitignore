@@ -23,3 +23,4 @@ latex/
 # 外部ライブラリ
 # 必要に応じてsyncする
 dependencies.txt
+src/test/gen

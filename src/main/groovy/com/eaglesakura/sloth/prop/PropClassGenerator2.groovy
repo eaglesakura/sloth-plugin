@@ -9,7 +9,7 @@ import com.eaglesakura.tool.generator.CodeWriter
 class PropClassGenerator2 {
     def classPackageName = "com.example"
     def className = "SampleSettingClass";
-    def superClass = "com.eaglesakura.android.property.internal.GeneratedProperties"
+    def superClass = "com.eaglesakura.sloth.db.property.internal.GeneratedProperties"
     File outDirectory = null;
 
     /**
