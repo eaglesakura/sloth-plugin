@@ -21,6 +21,7 @@ class AndroidPropertiesPluginTest extends GroovyTestCase {
         project.apply plugin: AndroidPropertiesPlugin
 
         project.props.output(new File("src/test/gen"))
+        project.props.configOutput(new File("src/test/gen"))
         project.props.property(new File("src/test/assets/properties.json"), "com.example.unit.test")
 
         project.tasks.androidGenerateProperties.execute()

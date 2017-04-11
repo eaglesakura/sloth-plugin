@@ -10,7 +10,8 @@ public class PropClassGenerator2 {
     def classPackageName = "com.example";
     def className = "SampleSettingClass";
     def superClass = "com.eaglesakura.sloth.db.property.internal.GeneratedProperties"
-    File outDirectory = null;
+    File sourceJson
+    File outDirectory
 
     /**
      * 頭の１文字目を大文字にする
