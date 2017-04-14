@@ -29,6 +29,7 @@ class AndroidPropertiesPlugin implements Plugin<Project> {
         void build() {
             for (PropClassGenerator2 gen : project.props.generators) {
                 gen.outDirectory = project.props.output
+                gen.build()
             }
 
             for (OutConfigJson outConfig : project.props.configs) {
