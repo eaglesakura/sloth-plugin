@@ -7,6 +7,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskAction
+import org.yaml.snakeyaml.Yaml
 
 /**
  * Androidのプロパティリストを出力するPlugin
@@ -40,7 +41,14 @@ class AndroidPropertiesPlugin implements Plugin<Project> {
     }
 
     private static PropertySource loadSource(File file) {
-        return JSON.decode(file.text, PropertySource.class);
+        if (file.name.endsWith(".json")) {
+            return JSON.decode(file.text, PropertySource.class);
+        } else if (file.name.endsWith(".yaml") || file.name.endsWith(".yml")) {
+            def jsonText = JSON.encode(new Yaml().load(file.text))
+            return JSON.decode(jsonText, PropertySource.class);
+        } else {
+            throw new IllegalArgumentException("${file.absolutePath} not supported format.")
+        }
     }
 
     /**
@@ -67,14 +75,13 @@ class AndroidPropertiesPlugin implements Plugin<Project> {
             for (def group : src.groups) {
                 PropClassGenerator2 gen = new PropClassGenerator2();
                 gen.classPackageName = packageName
-                gen.sourceJson = source
                 gen.addProperties(group)
 
                 generators.add(gen)
             }
             def out = new OutConfigJson()
             out.json = JSON.encode(src)
-            out.name = source.name
+            out.name = source.name.replace(".yaml", ".json").replace(".yml", ".json")
             configs.add(out)
         }
 

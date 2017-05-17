@@ -55,6 +55,7 @@ dependencies {
     compile 'com.eaglesakura:json-wrapper:1.0.422'
     compile 'commons-codec:commons-codec:1.10'
     compile 'org.greenrobot:greendao-generator:3.0.0'
+    compile 'org.yaml:snakeyaml:1.16'
     // UnitTest
     testCompile 'junit:junit:4.12'
 }
