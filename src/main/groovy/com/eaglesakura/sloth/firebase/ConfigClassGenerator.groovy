@@ -42,7 +42,7 @@ class ConfigClassGenerator {
         properties.add(new Property("${propName}", propName, propDefaultValue) {
             @Override
             String generateGetter() {
-                return " float get${toCamelCase(name)}(){ return (float)getRemoteConfig().getDouble(\"${key}\") }"
+                return " float get${toCamelCase(name)}(){ return (float)getRemoteConfig().getDouble(\"${key}\"); }"
             }
         })
     }
@@ -51,7 +51,7 @@ class ConfigClassGenerator {
         properties.add(new Property("${propName}", propName, propDefaultValue) {
             @Override
             String generateGetter() {
-                return " double get${toCamelCase(name)}(){ return getRemoteConfig().getDouble(\"${key}\") }"
+                return " double get${toCamelCase(name)}(){ return getRemoteConfig().getDouble(\"${key}\"); }"
             }
         })
     }
@@ -60,7 +60,7 @@ class ConfigClassGenerator {
         properties.add(new Property("${propName}", propName, propDefaultValue) {
             @Override
             String generateGetter() {
-                return " boolean is${toCamelCase(name)}(){ return getRemoteConfig().getBoolean(\"${key}\") }"
+                return " boolean is${toCamelCase(name)}(){ return getRemoteConfig().getBoolean(\"${key}\"); }"
             }
         })
     }
@@ -69,7 +69,7 @@ class ConfigClassGenerator {
         properties.add(new Property("${propName}", propName, propDefaultValue) {
             @Override
             String generateGetter() {
-                return " int get${toCamelCase(name)}(){ return (int)getRemoteConfig().getLong(\"${key}\") }"
+                return " int get${toCamelCase(name)}(){ return (int)getRemoteConfig().getLong(\"${key}\"); }"
             }
         })
     }
@@ -78,7 +78,7 @@ class ConfigClassGenerator {
         properties.add(new Property("${propName}", propName, propDefaultValue) {
             @Override
             String generateGetter() {
-                return " long get${toCamelCase(name)}(){ return getRemoteConfig().getLong(\"${key}\") }"
+                return " long get${toCamelCase(name)}(){ return getRemoteConfig().getLong(\"${key}\"); }"
             }
         })
     }
@@ -87,7 +87,7 @@ class ConfigClassGenerator {
         properties.add(new Property("${propName}", propName, propDefaultValue) {
             @Override
             String generateGetter() {
-                return " String get${toCamelCase(name)}(){ return getRemoteConfig().getString(\"${key}\") }"
+                return " String get${toCamelCase(name)}(){ return getRemoteConfig().getString(\"${key}\"); }"
             }
         })
     }
@@ -102,7 +102,7 @@ class ConfigClassGenerator {
         properties.add(new Property("${propName}", propName, propDefaultValue) {
             @Override
             String generateGetter() {
-                return " ${enumFullName} get${toCamelCase(name)}(){ try{ return ${enumFullName}.valueOf(getRemoteConfig().getString(\"${key}\")) }catch(Exception e){ return null } }"
+                return " ${enumFullName} get${toCamelCase(name)}(){ try{ return ${enumFullName}.valueOf(getRemoteConfig().getString(\"${key}\")) }catch(Exception e){ return null; } }"
             }
         })
     }
@@ -127,11 +127,11 @@ class ConfigClassGenerator {
         CodeWriter writer = new CodeWriter(srcRootDirectory)
 
         // packagename
-        writer.writeLine("package ${classPackageName}").newLine()
+        writer.writeLine("package ${classPackageName};").newLine()
 
         // import
-        writer.writeLine("import com.google.firebase.remoteconfig.FirebaseRemoteConfig")
-        writer.writeLine("import java.util.HashMap")
+        writer.writeLine("import com.google.firebase.remoteconfig.FirebaseRemoteConfig;")
+        writer.writeLine("import java.util.HashMap;")
         writer.newLine()
 
         // class name
@@ -147,11 +147,11 @@ class ConfigClassGenerator {
             writer.newLine()
 
             // Firebase
-            writer.writeLine("FirebaseRemoteConfig mRemoteConfig")
+            writer.writeLine("FirebaseRemoteConfig mRemoteConfig;")
             writer.newLine()
 
             for (def prop : properties) {
-                writer.writeLine(" static final String ID_${prop.name.toUpperCase()} = \"${prop.key}\"")
+                writer.writeLine(" static final String ID_${prop.name.toUpperCase()} = \"${prop.key}\";")
             }
             writer.newLine()
         }
@@ -170,21 +170,21 @@ class ConfigClassGenerator {
             writer.pushIndent(true).newLine()
             writer.writeLine("if (mRemoteConfig == null) {")
             writer.pushIndent(true).newLine()
-            writer.writeLine("mRemoteConfig = FirebaseRemoteConfig.getInstance()")
+            writer.writeLine("mRemoteConfig = FirebaseRemoteConfig.getInstance();")
 
             // 格納先を用意する
             writer.newLine()
-            writer.writeLine("HashMap<String, Object> defValues = new HashMap<>()")
+            writer.writeLine("HashMap<String, Object> defValues = new HashMap<>();")
 
             // Propertiesを出力する
             for (Property prop : properties) {
-                writer.writeLine("defValues.put(\"${prop.key}\", \"${prop.defaultValue}\")")
+                writer.writeLine("defValues.put(\"${prop.key}\", \"${prop.defaultValue}\");")
             }
 
             // Firebaseへ渡す
-            writer.writeLine("mRemoteConfig.setDefaults(defValues)")
+            writer.writeLine("mRemoteConfig.setDefaults(defValues);")
             writer.popIndent(true).writeLine("}")
-            writer.writeLine("return mRemoteConfig")
+            writer.writeLine("return mRemoteConfig;")
 
             // メソッドを閉じる
             writer.popIndent(true).writeLine("}")

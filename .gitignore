@@ -24,3 +24,5 @@ latex/
 # 必要に応じてsyncする
 dependencies.txt
 src/test/gen
+/gen/
+*.patch
